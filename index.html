@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ProvenSwing: see your tennis swing in 3D next to a pro</title>
+<meta name="description" content="Film one tennis stroke with your phone. ProvenSwing builds your swing in 3D, plays it next to a pro's, and shows the one thing to work on first. Forehand, backhand, slice and serve.">
+<link rel="canonical" href="https://www.provenswing.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.provenswing.com/">
+<meta property="og:title" content="ProvenSwing: your tennis swing in 3D, next to a pro">
+<meta property="og:description" content="Film one stroke. See it in 3D next to a pro. Track your progress.">
+<meta property="og:image" content="https://www.provenswing.com/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0d1822">
+<link rel="icon" type="image/png" href="img/icon.png">
+<link rel="apple-touch-icon" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+  :root { --night: #0d1822; --surface: #15283a; --line: #24384c; --ball: #d9ef3c; --pro: #5fe0b0; --text: #e9eff5; --muted: #9db0c2; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; overflow-x: clip; }
+  body { margin: 0; background: var(--night); color: var(--text); font: 400 18px/1.6 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; overflow-x: clip; }
+  h1, h2, h3 { margin: 0; line-height: 1.12; text-wrap: balance; }
+  h1 { font-size: clamp(38px, 6vw, 62px); font-weight: 800; letter-spacing: -.02em; }
+  h1 em, h2 em { font-style: normal; color: var(--ball); }
+  h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -.01em; }
+  h3 { font-size: 20px; font-weight: 600; }
+  p { margin: 0; }
+  a { color: var(--ball); text-underline-offset: 3px; }
+  a:focus-visible { outline: 3px solid var(--ball); outline-offset: 4px; border-radius: 6px; }
+  img { max-width: 100%; display: block; }
+  .wrap { width: min(1100px, 100% - 32px); margin-inline: auto; }
+  section { padding: clamp(52px, 8vw, 92px) 0; }
+  .lead { font-size: clamp(18px, 2vw, 21px); color: var(--muted); max-width: 33em; }
+  .center { text-align: center; }
+  .center .lead { margin-inline: auto; }
+
+  header { padding: 16px 0; border-bottom: 1px solid var(--line); }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  header img { width: clamp(170px, 26vw, 250px); height: auto; }
+  .btn-small { font: 600 15px/1 'Inter', sans-serif; color: var(--night); background: var(--ball); padding: 12px 18px; border-radius: 999px; text-decoration: none; white-space: nowrap; }
+
+  .play { display: inline-flex; align-items: center; gap: 14px; background: var(--ball); color: var(--night); text-decoration: none;
+          padding: 14px 26px 14px 20px; border-radius: 16px; transition: transform .15s; }
+  .play:hover { transform: translateY(-2px); }
+  .play svg { width: 28px; height: 28px; flex: none; }
+  .play small { display: block; font: 600 11px/1 'Inter', sans-serif; letter-spacing: .14em; margin-bottom: 5px; }
+  .play span { display: block; font: 800 23px/1 'Inter', sans-serif; }
+
+  .hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .hero .lead { margin: 22px 0 30px; }
+  .ticks { list-style: none; padding: 0; margin: 26px 0 0; display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 16px; color: var(--muted); }
+  .ticks li::before { content: "✓"; color: var(--pro); font-weight: 800; margin-right: 8px; }
+  .phone { width: min(320px, 80vw); margin-inline: auto; background: #050b11; padding: 10px; border-radius: 38px; border: 1px solid var(--line);
+           box-shadow: 0 30px 70px rgba(0,0,0,.5); }
+  .phone img { border-radius: 29px; width: 100%; height: auto; }
+
+  .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: stretch; gap: 14px; margin-top: 40px; }
+  .step { border: 1.5px solid var(--ball); border-radius: 16px; padding: 22px 20px; background: var(--surface); }
+  .step b { display: block; color: var(--ball); font-size: 15px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; }
+  .step p { color: var(--muted); font-size: 16px; margin-top: 8px; }
+  .arrow { align-self: center; color: var(--ball); font-size: 28px; font-weight: 800; }
+
+  .setup { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 56px); align-items: center; }
+  .setup img { border-radius: 16px; width: 100%; height: auto; }
+  .setup ul { padding-left: 20px; color: var(--muted); margin: 18px 0 0; }
+  .setup li { margin-bottom: 8px; }
+
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 36px; }
+  .card { background: var(--surface); border-radius: 16px; padding: 20px; }
+  .card p { color: var(--muted); font-size: 15px; margin-top: 6px; }
+
+  .faq { max-width: 760px; margin: 36px auto 0; }
+  details { border-top: 1px solid var(--line); padding: 18px 0; }
+  details:last-child { border-bottom: 1px solid var(--line); }
+  summary { cursor: pointer; font-weight: 600; font-size: 18px; }
+  details p { color: var(--muted); margin-top: 10px; }
+
+  footer { border-top: 1px solid var(--line); padding: 32px 0 44px; color: var(--muted); font-size: 15px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 26px; align-items: center; justify-content: space-between; }
+  footer nav { display: flex; flex-wrap: wrap; gap: 10px 22px; }
+  footer a { color: var(--text); }
+
+  @media (max-width: 860px) {
+    .hero .wrap, .setup { grid-template-columns: 1fr; }
+    .flow { grid-template-columns: 1fr; }
+    .arrow { transform: rotate(90deg); justify-self: center; }
+    .cards { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) { .cards { grid-template-columns: 1fr; } .btn-small { display: none; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a href="/"><img src="img/logo.webp" alt="ProvenSwing" width="720" height="130"></a>
+    <a class="btn-small" href="#get">Get the app</a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1>See your swing in 3D, <em>next to a pro</em></h1>
+      <p class="lead">Film one stroke with your phone. ProvenSwing builds your swing in 3D, plays it beside a professional's at the same moment of the stroke, and tells you the one thing to work on first.</p>
+      <a class="play" id="get" href="https://play.google.com/store/apps/details?id=com.provenswing.app">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3.6 1.8c-.3.3-.4.7-.4 1.2v18c0 .5.1.9.4 1.2l10-10.2L3.6 1.8Zm11.1 11.3 2.8 2.9-11.6 6.6 8.8-9.5Zm0-2.2-8.8-9.5 11.6 6.6-2.8 2.9Zm4.2-2 3.1 1.8c.9.5.9 1.8 0 2.3l-3.1 1.8-3.1-3 3.1-2.9Z"/></svg>
+        <div><small>GET IT ON</small><span>Google Play</span></div>
+      </a>
+      <ul class="ticks">
+        <li>6 free analyses every month</li>
+        <li>No sign-up</li>
+        <li>Your video is not kept</li>
+      </ul>
+    </div>
+    <div class="phone"><img src="img/screen-home.webp" alt="The ProvenSwing app: choose a stroke, place the phone, record" width="620" height="1083"></div>
+  </div>
+</section>
+
+<section style="background: var(--surface)">
+  <div class="wrap center">
+    <h2>How it works</h2>
+    <div class="flow">
+      <div class="step"><b>1</b><h3>Film a stroke</h3><p>Prop your phone up, hit a few balls, then stop. Or upload a video you already have.</p></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="step"><b>2</b><h3>See it in 3D next to a PRO</h3><p>In about a minute your swing is rebuilt in 3D and lined up with a pro's at contact.</p></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="step"><b>3</b><h3>Track your progress</h3><p>Every swing is measured the same way, so you can see what changes week to week.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap setup">
+    <img src="img/camera-placement.webp" alt="Top-down view: the phone stands in front of the player's hitting side, with the whole body in view" width="900" height="406" loading="lazy">
+    <div>
+      <h2>One phone, <em>placed once</em></h2>
+      <p class="lead" style="margin-top:16px">The app shows where to put your phone for each stroke. Then you just play.</p>
+      <ul>
+        <li>Landscape, still, about waist height</li>
+        <li>Your whole body and racket in the picture</li>
+        <li>A voice tells you when you are in frame, since you can't see the screen from the court</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section style="background: var(--surface)">
+  <div class="wrap center">
+    <h2>Every main stroke</h2>
+    <p class="lead" style="margin-top:14px">Right- or left-handed, one- or two-handed backhand.</p>
+    <div class="cards" style="text-align:left">
+      <div class="card"><h3>Forehand</h3><p>Shoulder turn, contact in front, racket drop and finish.</p></div>
+      <div class="card"><h3>Backhand</h3><p>One- or two-handed, compared with a pro who hits it the same way.</p></div>
+      <div class="card"><h3>Slice</h3><p>A high take-back and a high-to-low swing through the ball.</p></div>
+      <div class="card"><h3>Serve</h3><p>Toss and trophy, racket drop and how high you reach at contact.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="center">Questions</h2>
+    <div class="faq">
+      <details><summary>Is it free?</summary><p>Yes. Everyone gets 6 analyses a month, and the count starts again on the 1st. A short ad plays while the server builds your 3D swing.</p></details>
+      <details><summary>Do I need an account?</summary><p>No. There is no sign-up, no email and no password.</p></details>
+      <details><summary>What happens to my video?</summary><p>Only the stroke you pick (about 3 seconds, without sound) is sent to our server to build the 3D model. It is deleted as soon as your result is ready. Your results stay on your phone. Read the <a href="privacy.html">privacy policy</a>.</p></details>
+      <details><summary>What do I need?</summary><p>An Android phone, a way to stand it up (a small tripod, a bag or the net post) and an internet connection. Mobile data is fine: a swing is a few MB each way.</p></details>
+      <details><summary>Can I delete my data?</summary><p>Yes, in the app: Settings, then Delete my data. See <a href="delete-data.html">how to delete your data</a>.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 ProvenSwing</span>
+    <nav aria-label="Site">
+      <a href="privacy.html">Privacy policy</a>
+      <a href="delete-data.html">Delete your data</a>
+      <a href="mailto:support@provenswing.com">support@provenswing.com</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
